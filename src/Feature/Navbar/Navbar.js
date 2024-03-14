@@ -7,6 +7,9 @@ import {
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import Mode from "../ToggleMode/Mode";
+import Logo from "../../Images/Y-removebg-preview.png";
+import { useSelector } from "react-redux";
+import { SelectCartItems } from "../Cart/CartSlice";
 
 const user = {
   name: "Tom Cook",
@@ -17,14 +20,11 @@ const user = {
 const navigation = [
   { name: "Dashboard", href: "#", current: true },
   { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
-  { name: "Reports", href: "#", current: false },
 ];
 const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
-  { name: "Sign out", href: "#" },
+  { name: "Your Profile", link: "#" },
+  { name: "Settings", link: "#" },
+  { name: "Sign out", link: "/login" },
 ];
 
 function classNames(...classes) {
@@ -32,6 +32,7 @@ function classNames(...classes) {
 }
 
 export const Navbar = ({ children }) => {
+  const cartItems = useSelector(SelectCartItems);
   return (
     <>
       <div className="min-h-full">
@@ -45,7 +46,7 @@ export const Navbar = ({ children }) => {
                       <div className="flex-shrink-0">
                         <img
                           className="h-8 w-8"
-                          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                          src={Logo}
                           alt="Your Company"
                         />
                       </div>
@@ -85,7 +86,7 @@ export const Navbar = ({ children }) => {
                             aria-hidden="true"
                           />
                           <span className="absolute items-center rounded-md  px-2 py-1 -mt-10 text-sm font-small text-blue-50 ring-1 ring-inset ring-blue-700/10">
-                            3
+                            {cartItems.length > 0 ? cartItems.length : ""}
                           </span>
                         </button>
                       </Link>
@@ -116,15 +117,15 @@ export const Navbar = ({ children }) => {
                             {userNavigation.map((item) => (
                               <Menu.Item key={item.name}>
                                 {({ active }) => (
-                                  <a
-                                    href={item.href}
+                                  <Link
+                                    to={item.link}
                                     className={classNames(
                                       active ? "bg-gray-100" : "",
                                       "block px-4 py-2 text-sm text-gray-700"
                                     )}
                                   >
                                     {item.name}
-                                  </a>
+                                  </Link>
                                 )}
                               </Menu.Item>
                             ))}
@@ -202,21 +203,22 @@ export const Navbar = ({ children }) => {
                           aria-hidden="true"
                         />
                         <span className="absolute -mt-10 px-2 py-1 text-sm font-small text-blue-50 ring-1 ring-inset ring-blue-700/10">
-                          9
+                          {cartItems.length > 0 ? cartItems.length : ""}
                         </span>
                       </button>
                     </Link>
                   </div>
                   <div className="mt-3 space-y-1 px-2">
                     {userNavigation.map((item) => (
-                      <Disclosure.Button
-                        key={item.name}
-                        as="a"
-                        href={item.href}
-                        className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-                      >
-                        {item.name}
-                      </Disclosure.Button>
+                      <Link to={item.link}>
+                        <Disclosure.Button
+                          key={item.name}
+                          as="a"
+                          className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                        >
+                          {item.name}
+                        </Disclosure.Button>
+                      </Link>
                     ))}
                   </div>
                 </div>
