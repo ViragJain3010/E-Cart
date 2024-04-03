@@ -1,15 +1,13 @@
 import { Link, Navigate } from "react-router-dom";
 import { ArrowLongLeftIcon as LeftOutline } from "@heroicons/react/24/outline";
-import logo from "../../Images/Y-removebg-preview.png";
+import logo from "../../Images/Logo.png";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import {
   SelectError,
   SelectLoggedInUser,
   checkUserAsync,
-  createUserAsync,
 } from "../AuthSlice";
-import { useEffect, useState } from "react";
 
 const Login = () => {
   const {
@@ -28,15 +26,15 @@ const Login = () => {
       <div className="absolute left-6 top-4 invisible sm:visible">
         <Link
           to="/"
-          class="relative inline-flex items-center justify-center p-2 px-3 py-1 overflow-hidden font-medium text-indigo-600 transition duration-300 ease-out border-2 border-indigo-500 rounded-xl shadow-md group"
+          className="relative inline-flex items-center justify-center p-2 px-3 py-1 overflow-hidden font-medium text-indigo-600 transition duration-300 ease-out border-2 border-indigo-500 rounded-xl shadow-md group"
         >
-          <span class="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-indigo-500 group-hover:translate-x-0 ease">
+          <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-indigo-500 group-hover:translate-x-0 ease">
             <LeftOutline className="w-6 h-6" />
           </span>
-          <span class="absolute flex items-center justify-center w-full h-full text-indigo-700 transition-all duration-300 transform group-hover:translate-x-full ease">
+          <span className="absolute flex items-center justify-center w-full h-full text-indigo-700 transition-all duration-300 transform group-hover:translate-x-full ease">
             Home
           </span>
-          <span class="relative invisible">Home</span>
+          <span className="relative invisible">Home</span>
         </Link>
       </div>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -57,7 +55,7 @@ const Login = () => {
             className="space-y-5"
             onSubmit={handleSubmit((data) => {
               dispath(
-                checkUserAsync({ email: data.email, password: data.password })
+                checkUserAsync({ email: data.email, password: data.password, address:[] })
               );
               // console.log(error)
             })}
@@ -149,31 +147,6 @@ const Login = () => {
           </p>
         </div>
       </div>
-      {/* {error && (
-        <div id="alert" className="w-3/6 m-auto">
-          {" "}
-          <div
-            class="flex bg-red-100 rounded-lg p-4 mb-4 text-sm text-red-700 "
-            role="alert"
-          >
-            <svg
-              class="w-5 h-5 inline mr-3"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-            <div>
-              <span class="font-medium">Info alert!</span> {error.message}
-            </div>
-          </div>
-        </div>
-      )} */}
     </>
   );
 };

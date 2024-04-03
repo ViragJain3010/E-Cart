@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { ArrowLongLeftIcon as LeftOutline } from "@heroicons/react/24/outline";
-import logo from "../../Images/Y-removebg-preview.png";
+import logo from "../../Images/Logo.png";
 import { useForm } from "react-hook-form";
 import PasswordStrength from "./PasswordStrength";
 import zxcvbn from "zxcvbn";
@@ -26,6 +26,7 @@ const SignUp = () => {
 
   return (
     <>
+      {user && <Navigate to={"/"} replace={true}></Navigate>}
       <div className="absolute left-6 top-4 invisible sm:visible">
         <Link
           to="/"
@@ -59,7 +60,12 @@ const SignUp = () => {
             onSubmit={handleSubmit((data) => {
               console.log(data);
               dispath(
-                createUserAsync({ email: data.email, password: data.password })
+                createUserAsync({
+                  email: data.email,
+                  password: data.password,
+                  address: [],
+                  role: "user"
+                })
               );
             })}
           >

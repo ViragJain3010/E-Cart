@@ -55,6 +55,7 @@ const Pagination = ({ page, setPage, handlePage, totalItems }) => {
                 length: TotalPages,
               }).map((e, index) => (
                 <div
+                key={index}
                   onClick={(e) => handlePage(index + 1)}
                   aria-current="page"
                   className={`relative cursor-pointer inline-flex items-center px-4 py-2 text-sm font-semibold focus:z-20 transition-all${

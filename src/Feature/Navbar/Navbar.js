@@ -7,9 +7,10 @@ import {
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import Mode from "../ToggleMode/Mode";
-import Logo from "../../Images/Y-removebg-preview.png";
+import Logo from "../../Images/Logo.png";
 import { useSelector } from "react-redux";
 import { SelectCartItems } from "../Cart/CartSlice";
+import BrandName from "../../Images/BrandName.png";
 
 const user = {
   name: "Tom Cook",
@@ -18,13 +19,13 @@ const user = {
     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 };
 const navigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
+  // { name: "Dashboard", href: "#", current: true },
+  // { name: "Team", href: "#", current: false },
 ];
 const userNavigation = [
-  { name: "Your Profile", link: "#" },
-  { name: "Settings", link: "#" },
-  { name: "Sign out", link: "/login" },
+  { name: "Your Profile", link: "/user" },
+  { name: "My Orders", link: "/orders" },
+  { name: "Sign out", link: "/logout" },
 ];
 
 function classNames(...classes) {
@@ -36,25 +37,33 @@ export const Navbar = ({ children }) => {
   return (
     <>
       <div className="min-h-full">
-        <Disclosure as="nav" className="bg-gray-800">
+        <Disclosure as="nav" className="bg-gray-800 shadow">
           {({ open }) => (
             <>
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
-                    <Link to="/">
+                    <Link to="/" className="flex">
                       <div className="flex-shrink-0">
                         <img
-                          className="h-8 w-8"
+                          className="h-10 w-10"
                           src={Logo}
                           alt="Your Company"
                         />
+                      </div>
+                      <div className="flex-shrink-0 self-center">
+                        <img
+                          className="w-40 "
+                          src={BrandName}
+                          alt="Your Company"
+                        />
+                        {/* <h1 className="text-white">YOUBUY</h1> */}
                       </div>
                     </Link>
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item) => (
-                          <a
+                          <p
                             key={item.name}
                             href={item.href}
                             className={classNames(
@@ -66,7 +75,7 @@ export const Navbar = ({ children }) => {
                             aria-current={item.current ? "page" : undefined}
                           >
                             {item.name}
-                          </a>
+                          </p>
                         ))}
                       </div>
                     </div>
@@ -209,8 +218,8 @@ export const Navbar = ({ children }) => {
                     </Link>
                   </div>
                   <div className="mt-3 space-y-1 px-2">
-                    {userNavigation.map((item) => (
-                      <Link to={item.link}>
+                    {userNavigation.map((item, index) => (
+                      <Link to={item.link} key={index}>
                         <Disclosure.Button
                           key={item.name}
                           as="a"
@@ -226,13 +235,13 @@ export const Navbar = ({ children }) => {
             </>
           )}
         </Disclosure>
-        <header className="bg-white shadow">
+        {/* <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">
               Dashboard
             </h1>
           </div>
-        </header>
+        </header> */}
         <main>
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
             {children}

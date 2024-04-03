@@ -3,6 +3,7 @@ import {
   addToCart,
   deleteItemFromCart,
   fetchItemsByUserId,
+  resetCart,
   updateCart,
 } from "./CartAPI";
 
@@ -19,7 +20,6 @@ export const addToCartAsync = createAsyncThunk(
   "cart/addToCart",
   async (data) => {
     const response = await addToCart(data);
-    console.log(response);
     return response.data;
   }
 );
@@ -50,10 +50,23 @@ export const deleteItemFromCartAsync = createAsyncThunk(
   }
 );
 
+export const resetCartAsync = createAsyncThunk(
+  "cart/resetCart",
+  async (userId) => {
+    const response = await resetCart(userId);
+    return response.data;
+  }
+);
+
 export const cartSlice = createSlice({
-  name: "user",
+  name: "cart",
   initialState,
-  reducers: [],
+  reducers: {
+    nullifyCartIndex: (state) => {
+      state.cartLoaded = false;
+      state.items = [];
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(addToCartAsync.pending, (state) => {
@@ -71,31 +84,39 @@ export const cartSlice = createSlice({
         state.items = action.payload;
       })
       .addCase(updateCartAsync.pending, (state) => {
-        state.status = "loading";
+        state.status = LOADING;
       })
       .addCase(updateCartAsync.fulfilled, (state, action) => {
-        state.status = "idle";
+        state.status = IDLE;
         const index = state.items.findIndex(
           (item) => item.id === action.payload.id
         );
         state.items[index] = action.payload;
       })
       .addCase(deleteItemFromCartAsync.pending, (state) => {
-        state.status = "loading";
+        state.status = LOADING;
       })
       .addCase(deleteItemFromCartAsync.fulfilled, (state, action) => {
-        state.status = "idle";
+        state.status = IDLE;
         const index = state.items.findIndex(
           (item) => item.id === action.payload.id
         );
         state.items.splice(index, 1);
+      })
+      .addCase(resetCartAsync.pending, (state) => {
+        state.status = LOADING;
+      })
+      .addCase(resetCartAsync.fulfilled, (state) => {
+        state.status = IDLE;
+        state.items = [];
       });
   },
 });
 
-export const {} = cartSlice.actions;
+export const { nullifyCartIndex } = cartSlice.actions;
 
 export default cartSlice.reducer;
 
 // UseSelector's
 export const SelectCartItems = (state) => state.cartIndex.items;
+export const SelectCartLoadingStatus = (state) => state.cartIndex.status;

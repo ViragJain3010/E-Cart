@@ -56,7 +56,7 @@ export function fetchProductsByFilter(filter, sort, pagination) {
   });
 }
 
-export function fetchAllCategory() {
+export function fetchCategories() {
   return new Promise(async (resolve) => {
     const response = await fetch("http://localhost:8000/category");
     const data = await response.json();
@@ -64,7 +64,7 @@ export function fetchAllCategory() {
   });
 }
 
-export function fetchAllBrands() {
+export function fetchBrands() {
   return new Promise(async (resolve) => {
     const response = await fetch("http://localhost:8000/brands");
     const data = await response.json();
@@ -75,6 +75,33 @@ export function fetchAllBrands() {
 export function fetchProductByID(id) {
   return new Promise(async (resolve) => {
     const response = await fetch(`http://localhost:8000/products/${id}`);
+    const data = await response.json();
+    resolve(data);
+  });
+}
+
+export function createNewProduct(productData) {
+  return new Promise(async (resolve) => {
+    const response = await fetch("http://localhost:8000/products", {
+      method: "POST",
+      body: JSON.stringify(productData),
+      headers: { "content-type": "application/json" },
+    });
+    const data = await response.json();
+    resolve(data);
+  });
+}
+
+export function updateProduct(updatedData) {
+  return new Promise(async (resolve) => {
+    const response = await fetch(
+      "http://localhost:8000/products/" + updatedData.id,
+      {
+        method: "PATCH",
+        body: JSON.stringify(updatedData),
+        headers: { "content-type": "application/json" },
+      }
+    );
     const data = await response.json();
     resolve(data);
   });
