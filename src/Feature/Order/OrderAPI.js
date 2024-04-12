@@ -1,6 +1,6 @@
 export function addOrder(items) {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8000/order", {
+    const response = await fetch("http://localhost:8000/orders", {
       method: "POST",
       body: JSON.stringify(items),
       headers: { "content-type": "application/json" },
@@ -10,11 +10,9 @@ export function addOrder(items) {
   });
 }
 
-export function fetchAllOrdersByUserId(userId) {
+export function fetchAllOrdersByUserId(user) {
   return new Promise(async (resolve) => {
-    const response = await fetch(
-      "http://localhost:8000/order?user=" + userId.id + "&_sort=id&_order=desc"
-    );
+    const response = await fetch("http://localhost:8000/orders/" + user.id);
     const data = await response.json();
     resolve({ data });
   });
@@ -30,9 +28,8 @@ export function fetchAllOrders(sort, pagination) {
     query += `${key}=${sort[key]}&`;
   }
 
-  console.log(query);
   return new Promise(async (resolve) => {
-    const response = await fetch(`http://localhost:8000/order?${query}`);
+    const response = await fetch("http://localhost:8000/orders?" + query);
     const data = await response.json();
     const totalOrders = await response.headers.get("X-Total-Count");
     resolve({ data: { orders: data, totalOrders: +totalOrders } });
@@ -41,12 +38,12 @@ export function fetchAllOrders(sort, pagination) {
 
 export function updateOrder(order) {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8000/order/" + order.id, {
+    const response = await fetch("http://localhost:8000/orders/" + order.id, {
       method: "PATCH",
       body: JSON.stringify(order),
       headers: { "content-type": "application/json" },
     });
     const data = await response.json();
-    resolve({ data });
+    resolve({data} );
   });
 }

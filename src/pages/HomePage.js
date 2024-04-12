@@ -1,11 +1,16 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FilterPage from "../Feature/FilterPage/FilterPage";
 import Navbar from "../Feature/Navbar/Navbar";
-import { SelectLoggedInUser } from "../Auth/AuthSlice";
+import { SelectLoggedInUser, nullifyAuth } from "../Auth/AuthSlice";
 import { Navigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const HomePage = () => {
   const user = useSelector(SelectLoggedInUser);
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    dispatch(nullifyAuth())
+  })
 
   return (
     <>

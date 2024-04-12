@@ -64,11 +64,13 @@ const Cart = () => {
                       {cartItems.map((item) => (
                         <li key={item.product.id} className="flex py-6">
                           <div className="h-32 w-32 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                            <img
-                              src={item.product.thumbnail}
-                              alt={item.product.title}
-                              className="h-full w-full object-cover object-center"
-                            />
+                            <Link to={`/products/${item.product.id}`}>
+                              <img
+                                src={item.product.thumbnail}
+                                alt={item.product.title}
+                                className="h-full w-full object-cover object-center"
+                              />
+                            </Link>
                           </div>
 
                           <div className="ml-4 flex flex-1 flex-col">
@@ -113,11 +115,11 @@ const Cart = () => {
                                     onClick={(e) =>
                                       handleQty(e, item, item.quantity - 1)
                                     }
-                                    className="inline-grid text-center font-normal px-2 w-6 rounded-md bg-indigo-500 text-xl justify-center hover:bg-indigo-600"
+                                    className={`inline-grid text-center font-normal px-2 w-6 rounded-md  text-xl justify-center  ${item.quantity>1?"cursor-pointer bg-indigo-500 hover:bg-indigo-600":"cursor-not-allowed bg-indigo-400 "}`}
                                   >
                                     -
                                   </button>
-                                  <div className="inline-grid text-center font-medium px-2 py-1 text-gray-600 text-lg">
+                                  <div className="inline-grid text-center font-medium px-2 py-1 text-gray-600 text-lg cursor-default">
                                     {item.quantity}
                                   </div>
 
@@ -205,7 +207,11 @@ const Cart = () => {
             <div className="flex flex-col lg:mx-6 md:mx-8 my-4 py-16 lg:px-8 md:px-4 rounded-lg bg-white">
               <div className="h-auto w-auto flex flex-col self-center justify-center align-middle">
                 {" "}
-                <img className="w-4/5 md:w-auto self-center" src={emptyCart} />
+                <img
+                  className="w-4/5 md:w-auto self-center"
+                  src={emptyCart}
+                  alt="Empty Cart"
+                />
                 <p className="text-3xl p-6">Uh Oh! Your Cart is Empty!!</p>
                 <Link to="/">
                   <button

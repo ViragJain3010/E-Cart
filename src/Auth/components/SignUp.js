@@ -4,9 +4,10 @@ import logo from "../../Images/Logo.png";
 import { useForm } from "react-hook-form";
 import PasswordStrength from "./PasswordStrength";
 import zxcvbn from "zxcvbn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SelectLoggedInUser, createUserAsync } from "../AuthSlice";
+import { createLoggedInUserDataAsync } from "../../Feature/Users/UserSlice";
 
 const SignUp = () => {
   const [passwordStrength, setPasswordStrength] = useState({
@@ -21,8 +22,21 @@ const SignUp = () => {
     // watch,
     formState: { errors },
   } = useForm();
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
   const user = useSelector(SelectLoggedInUser);
+
+  useEffect(() => {
+    if (user) {
+      console.log(user);
+      dispatch(
+        createLoggedInUserDataAsync({
+          email: user.email,
+          address: [],
+          userId: user.id,
+        })
+      )
+    }
+  }, [dispatch, user]);
 
   return (
     <>
@@ -59,12 +73,11 @@ const SignUp = () => {
             className="space-y-5"
             onSubmit={handleSubmit((data) => {
               console.log(data);
-              dispath(
+              dispatch(
                 createUserAsync({
                   email: data.email,
                   password: data.password,
-                  address: [],
-                  role: "user"
+                  role: "user",
                 })
               );
             })}

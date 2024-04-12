@@ -30,6 +30,7 @@ function AdminOrders() {
       setEditableOrderId(order.id);
     }
   };
+  
   const handleShow = () => {
     console.log("handleShow");
   };
@@ -57,15 +58,15 @@ function AdminOrders() {
 
   const chooseColor = (status) => {
     switch (status) {
-      case "shipping":
+      case "SHIPPING":
         return "bg-purple-200 text-purple-600";
-      case "dispatched":
+      case "DISPATCHED":
         return "bg-yellow-200 text-yellow-600";
-      case "delivered":
+      case "DELIVERED":
         return "bg-green-200 text-green-600";
-      case "received":
+      case "RECEIVED":
         return "bg-green-200 text-green-600";
-      case "cancelled":
+      case "CANCELLED":
         return "bg-red-200 text-red-600";
       default:
         return "bg-purple-200 text-purple-600";
@@ -215,10 +216,10 @@ function AdminOrders() {
                           value={order.status}
                           onChange={(e) => handleOrderStatus(e, order)}
                         >
-                          <option value="shipping">Shipping</option>
-                          <option value="dispatched">Dispatched</option>
-                          <option value="delivered">Delivered</option>
-                          <option value="cancelled">Cancelled</option>
+                          <option value="SHIPPING">Shipping</option>
+                          <option value="DISPATCHED">Dispatched</option>
+                          <option value="DELIVERED">Delivered</option>
+                          <option value="CANCELLED">Cancelled</option>
                         </select>
                       ) : (
                         <span
@@ -244,8 +245,8 @@ function AdminOrders() {
                           className="w-auto h-fit text-sm rounded-lg"
                           onChange={(e) => handleOrderPaymentStatus(e, order)}
                         >
-                          <option value="pending">Pending</option>
-                          <option value="received">Received</option>
+                          <option value="PENDING">Pending</option>
+                          <option value="RECEIVED">Received</option>
                         </select>
                       ) : (
                         <span

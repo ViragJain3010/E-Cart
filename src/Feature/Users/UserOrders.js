@@ -2,11 +2,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { SelectOrders, fetchAllOrdersByUserIdAsync } from "../Order/OrderSlice";
 import { useEffect } from "react";
 import { SelectLoggedInUser } from "../../Auth/AuthSlice";
+import { SelectCartItems } from "../Cart/CartSlice";
 import { Link } from "react-router-dom";
 import cashIcon from "../../Images/cash.png";
 import cardIcon from "../../Images/card.png";
 import { HashLoader } from "react-spinners";
 import { SelectUserLoadingStatus } from "./UserSlice";
+import NoOrdersImg from "../../Images/no_orders2.png";
+import { ArrowRightIcon } from "@heroicons/react/20/solid";
+import ProgressBar from "./ProgressBar";
 
 function convertToTitleCase(word) {
   return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
@@ -17,6 +21,7 @@ const UserOrders = () => {
   const user = useSelector(SelectLoggedInUser);
   const orders = useSelector(SelectOrders);
   const status = useSelector(SelectUserLoadingStatus);
+  const cart = useSelector(SelectCartItems);
 
   useEffect(() => {
     dispatch(fetchAllOrdersByUserIdAsync(user));
@@ -30,6 +35,30 @@ const UserOrders = () => {
         </div>
       ) : (
         <>
+          {orders.length === 0 && (
+            <div className="flex md:flex-row flex-col-reverse align-middle justify-around w-full h-full bg-white p-12">
+              <div className="flex self-center flex-col space-y-4">
+                <p className="flex md:text-5xl text-3xl text-indigo-600 font-semibold ">
+                  No Orders
+                </p>
+                <Link
+                  className="flex justify-between bg-indigo-600 hover:bg-indigo-700 rounded-md text-white px-8 py-4 text-lg font-medium"
+                  to={ cart.length>0 ? "/cart": "/"}
+                >
+                  {" "}
+                  Order Now
+                  <ArrowRightIcon className="w-6 h-6 flex" />
+                </Link>
+              </div>
+              <div className="flex self-center">
+                <img
+                  src={NoOrdersImg}
+                  alt="No_Orders"
+                  className="self-center "
+                />
+              </div>
+            </div>
+          )}
           {orders.map((order, index) => (
             <div
               key={index}
@@ -37,11 +66,13 @@ const UserOrders = () => {
             >
               <div className="flex justify-start item-start space-y-2 flex-col text-left px-6">
                 <h1 className="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9  text-indigo-600">
-                  Order Number #{order.id}
+                  Order Details 
                 </h1>
-                <p className="text-base font-medium leading-6 text-cyan-700">
+                <p className="text-base text-gray-400">Order Token:{" "}
+                <span className="text-gray-700">{order.id}</span></p>
+                {/* <p className="text-base font-medium leading-6 text-cyan-600">
                   Status: {order.status}
-                </p>
+                </p> */}
               </div>
               <div className="mt-4 flex flex-col xl:flex-row jusitfy-center items-stretch  w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
                 <div className="flex flex-col justify-start items-start w-full space-y-2 md:space-y-3 xl:space-y-4">
@@ -184,6 +215,8 @@ const UserOrders = () => {
                   </div>
                 </div>
               </div>
+              {/* DISPATCHED  SHIPPING  DELIVERED*/}
+              <ProgressBar status={order.status}/>
             </div>
           ))}
         </>

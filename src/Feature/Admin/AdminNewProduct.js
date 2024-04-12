@@ -1,9 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
-  SelectBrands,
-  SelectCategory,
   createNewProductAsync,
 } from "../ProductList/ProductListSlice";
+import {
+  SelectBrands,
+  SelectCategory,
+} from "../FilterPage/SectionSlice";
 import { useForm } from "react-hook-form";
 import { Navigate } from "react-router-dom";
 import { useState } from "react";

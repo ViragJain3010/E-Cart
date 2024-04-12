@@ -45,7 +45,11 @@ export const signOutAsync = createAsyncThunk(
 export const userSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: [],
+  reducers: {
+    nullifyAuth: (state) => {
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createUserAsync.pending, (state) => {
@@ -54,6 +58,7 @@ export const userSlice = createSlice({
       .addCase(createUserAsync.fulfilled, (state, action) => {
         state.status = IDLE;
         state.loggedInUser = action.payload;
+        state.error = null;
       })
       .addCase(checkUserAsync.pending, (state) => {
         state.status = LOADING;
@@ -61,11 +66,11 @@ export const userSlice = createSlice({
       .addCase(checkUserAsync.fulfilled, (state, action) => {
         state.status = IDLE;
         state.loggedInUser = action.payload;
+        state.error = null;
       })
       .addCase(checkUserAsync.rejected, (state, action) => {
         state.status = IDLE;
         state.error = action.error;
-        console.log(state.error);
       })
       .addCase(updateUserAsync.pending, (state) => {
         state.status = LOADING;
@@ -73,6 +78,8 @@ export const userSlice = createSlice({
       .addCase(updateUserAsync.fulfilled, (state, action) => {
         state.status = IDLE;
         state.loggedInUser = action.payload;
+        state.error = null;
+
       })
       .addCase(signOutAsync.pending, (state) => {
         state.status = LOADING;
@@ -80,11 +87,12 @@ export const userSlice = createSlice({
       .addCase(signOutAsync.fulfilled, (state) => {
         state.status = IDLE;
         state.loggedInUser = null;
+        state.error = null;
       });
   },
 });
 
-export const {} = userSlice.actions;
+export const {nullifyAuth} = userSlice.actions;
 
 export default userSlice.reducer;
 

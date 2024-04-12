@@ -55,7 +55,7 @@ const Login = () => {
             className="space-y-5"
             onSubmit={handleSubmit((data) => {
               dispath(
-                checkUserAsync({ email: data.email, password: data.password, address:[] })
+                checkUserAsync({ email: data.email, password: data.password })
               );
               // console.log(error)
             })}

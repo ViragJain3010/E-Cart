@@ -49,8 +49,8 @@ const Checkout_Cart = ({ paymentMethod, selectedAddress }) => {
       products: items,
       subtotal: Subtotal,
       totalItems: TotalItems,
-      user: user.id,
-      paymentMethod,
+      userId: user.id,
+      paymentMethod: paymentMethod,
       selectedAddress: selectedAddress,
       status: "SHIPPING",
     };
@@ -147,7 +147,7 @@ const Checkout_Cart = ({ paymentMethod, selectedAddress }) => {
               <div className="mb-10 ">
                 <button
                   onClick={handleOrder}
-                  className="border-2 text-white p-2 rounded-md bg-indigo-600 hover:bg-indigo-700"
+                  className="border-2 text-white px-6 font-medium py-2 rounded-md bg-indigo-600 hover:bg-indigo-700"
                 >
                   Order Now
                 </button>

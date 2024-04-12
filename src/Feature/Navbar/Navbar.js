@@ -11,22 +11,20 @@ import Logo from "../../Images/Logo.png";
 import { useSelector } from "react-redux";
 import { SelectCartItems } from "../Cart/CartSlice";
 import BrandName from "../../Images/BrandName.png";
+import { SelectLoggedInUser } from "../../Auth/AuthSlice";
+import  avtarImg  from "../../Images/avatar2.jpg";
 
-const user = {
+const userProfile = {
   name: "Tom Cook",
   email: "tom@example.com",
-  imageUrl:
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+  imageUrl: avtarImg ,
 };
 const navigation = [
   // { name: "Dashboard", href: "#", current: true },
   // { name: "Team", href: "#", current: false },
 ];
-const userNavigation = [
-  { name: "Your Profile", link: "/user" },
-  { name: "My Orders", link: "/orders" },
-  { name: "Sign out", link: "/logout" },
-];
+
+let userNavigation = [];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -34,6 +32,17 @@ function classNames(...classes) {
 
 export const Navbar = ({ children }) => {
   const cartItems = useSelector(SelectCartItems);
+  const user = useSelector(SelectLoggedInUser);
+  if (user) {
+    userNavigation = [
+      { name: "Your Profile", link: "/user" },
+      { name: "My Orders", link: "/orders" },
+      { name: "Sign out", link: "/logout" },
+    ];
+  } else {
+    userNavigation = [{ name: "Sign In", link: "/login" }];
+  }
+
   return (
     <>
       <div className="min-h-full">
@@ -108,7 +117,7 @@ export const Navbar = ({ children }) => {
                             <span className="sr-only">Open user menu</span>
                             <img
                               className="h-8 w-8 rounded-full"
-                              src={user.imageUrl}
+                              src={userProfile.imageUrl}
                               alt=""
                             />
                           </Menu.Button>
@@ -188,16 +197,16 @@ export const Navbar = ({ children }) => {
                     <div className="flex-shrink-0">
                       <img
                         className="h-10 w-10 rounded-full"
-                        src={user.imageUrl}
+                        src={userProfile.imageUrl}
                         alt=""
                       />
                     </div>
                     <div className="ml-3">
                       <div className="text-base font-medium leading-none text-white">
-                        {user.name}
+                        {userProfile.name}
                       </div>
                       <div className="text-sm font-medium leading-none text-gray-400">
-                        {user.email}
+                        {userProfile.email}
                       </div>
                     </div>
                     <Link to="/cart">

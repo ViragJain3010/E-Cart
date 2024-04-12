@@ -13,7 +13,7 @@ const ProductList = ({ product }) => {
         <div className="mt-6 grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-4">
           {product.map((product) => (
             <Link to={`/products/${product.id}`} key={product.id}>
-              <div className="group relative border-2 p-2 border-gray-200 rounded-lg hover:shadow-xl hover:scale-105  transition">
+              <div className="group relative border-2 p-2 border-gray-200 rounded-lg hover:shadow-xl hover:scale-105  transition h-full">
                 <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none lg:h-80">
                   <img
                     src={product.thumbnail}
@@ -22,9 +22,8 @@ const ProductList = ({ product }) => {
                   />
                 </div>
                 <div className="m-2 flex justify-between">
-                  <div>
+                  <div className="items-start flex flex-col">
                     <h3 className="text-lg font-bold text-left text-gray-900 ">
-                      <span aria-hidden="true" className="absolute inset-0" />
                       {product.title}
                     </h3>
                     <div className="inline-flex mt-1 ">

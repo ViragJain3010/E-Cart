@@ -40,6 +40,7 @@ const OrderSuccess = () => {
             <div className="text-center md:flex align-middle justify-center">
               <div className=" m-auto">
                 <img
+                alt="order_success"
                   className="self-center "
                   src={img[Math.floor(Math.random() * 4)]}
                 />
@@ -64,7 +65,7 @@ const OrderSuccess = () => {
                       >
                         My Orders
                         <ArrowLongRightIcon
-                          aria-hidden="true "
+                          aria-hidden="true"
                           className="w-5 flex mx-2 align-middle"
                         />
                       </Link>
@@ -76,7 +77,7 @@ const OrderSuccess = () => {
                       >
                         Home
                         <ArrowLongRightIcon
-                          aria-hidden="true "
+                          aria-hidden="true"
                           className="w-5 flex mx-2 align-middle"
                         />
                       </Link>

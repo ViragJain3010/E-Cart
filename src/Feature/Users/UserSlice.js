@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { fetchLoggedInUserData, updateLoggedInUserData } from "./UserAPI";
+import {
+  createLoggedInUserData,
+  fetchLoggedInUserData,
+  updateLoggedInUserData,
+} from "./UserAPI";
 
 const IDLE = "idle";
 const LOADING = "loading";
@@ -7,6 +11,14 @@ const LOADING = "loading";
 const initialState = {
   info: null,
 };
+
+export const createLoggedInUserDataAsync = createAsyncThunk(
+  "user/createLoggedInUserData",
+  async (data) => {
+    const response = await createLoggedInUserData(data);
+    return response;
+  }
+);
 
 export const fetchLoggedInUserDataAsync = createAsyncThunk(
   "user/fetchLoggedInUserData",
@@ -45,6 +57,13 @@ export const userSlice = createSlice({
         state.status = LOADING;
       })
       .addCase(updateLoggedInUserDataAsync.fulfilled, (state, action) => {
+        state.status = IDLE;
+        state.info = action.payload;
+      })
+      .addCase(createLoggedInUserDataAsync.pending, (state) => {
+        state.status = LOADING;
+      })
+      .addCase(createLoggedInUserDataAsync.fulfilled, (state, action) => {
         state.status = IDLE;
         state.info = action.payload;
       });

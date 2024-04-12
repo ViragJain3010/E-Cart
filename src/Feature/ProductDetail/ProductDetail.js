@@ -42,6 +42,8 @@ function classNames(...classes) {
 }
 
 const ProductDetail = () => {
+  const params = useParams();
+  const dispatch = useDispatch();
   const [selectedColor, setSelectedColor] = useState(colors[0]);
   const [selectedSize, setSelectedSize] = useState(sizes[2]);
   const product = useSelector(SelectProductByID);
@@ -51,17 +53,15 @@ const ProductDetail = () => {
   const [alreadyInCart, setAlreadyInCart] = useState(false);
   const [openModal, setOpenModal] = useState(null);
 
-  const dispatch = useDispatch();
-  const params = useParams();
   const handleAddToCart = (e) => {
     e.preventDefault();
-    dispatch(addToCartAsync({ user: user.id, product, quantity: 1 }));
+    dispatch(addToCartAsync({ userId: user.id, product, quantity: 1 }));
   };
 
   useEffect(() => {
     dispatch(fetchProductByIDAsync(params.id));
     if (cartItems.length > 0) {
-      const isInCart = cartItems.some((item) => item.product.id === +params.id);
+      const isInCart = cartItems.some((item) => item.product.id === params.id);
       setAlreadyInCart(isInCart);
     }
   }, [dispatch, params.id, cartItems]);
@@ -302,7 +302,8 @@ const ProductDetail = () => {
                       </>
                     )}
                   </form>
-                  <Modal
+                  {/* TODO: ADD A ALERT WHEN PRODUCT ADDED TO CART SUCCESSFULLY */}
+                  {/* <Modal
                     type="success"
                     title={`${product.title} has been added to your cart`}
                     message="Are you sure you want to delete this item from your cart?"
@@ -311,7 +312,7 @@ const ProductDetail = () => {
                     primaryAction={(e) => handleRemove(e, item.id)}
                     secondaryAction={() => setOpenModal(null)}
                     showModal={openModal === item.id}
-                  />
+                  /> */}
                 </div>
 
                 <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">

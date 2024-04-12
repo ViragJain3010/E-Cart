@@ -7,22 +7,25 @@ import {
   FunnelIcon,
   MinusIcon,
   PlusIcon,
-  Squares2X2Icon,
 } from "@heroicons/react/20/solid";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  SelectBrands,
-  SelectCategory,
   SelectProducts,
   SelectTotalItems,
-  fetchBrandsAsync,
-  fetchCategoriesAsync,
   fetchProductsByFilterAsync,
 } from "../ProductList/ProductListSlice";
+import {
+  SelectBrands,
+  SelectCategory,
+  fetchBrandsAsync,
+  fetchCategoriesAsync,
+  updateChecked,
+} from "../FilterPage/SectionSlice";
 import Pagination from "../Pagination/Pagination";
 import { ITEMS_PER_PAGE } from "../../Constants/constants";
 import AdminProductList from "./AdminProductList";
 import { Link } from "react-router-dom";
+import { SelectLoggedInUser } from "../../Auth/AuthSlice";
 
 const sortOptions = [
   {
@@ -65,6 +68,7 @@ const AdminFilterPage = ({ children }) => {
   const product = useSelector(SelectProducts);
   const category = useSelector(SelectCategory);
   const brand = useSelector(SelectBrands);
+  const user = useSelector(SelectLoggedInUser)
 
   const filters = [
     {
@@ -80,6 +84,7 @@ const AdminFilterPage = ({ children }) => {
   ];
 
   const handleFilter = (e, section, option) => {
+    dispatch(updateChecked({section: section.id, id:option.id}));
     const newFilter = { ...filter };
     if (e.target.checked) {
       if (newFilter[section.id]) {
@@ -123,8 +128,8 @@ const AdminFilterPage = ({ children }) => {
 
   useEffect(() => {
     const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
-    dispatch(fetchProductsByFilterAsync({ filter, sort, pagination }));
-  }, [dispatch, filter, sort, page]);
+    dispatch(fetchProductsByFilterAsync({ filter, sort, pagination, user }));
+  }, [dispatch, filter, sort, page, user]);
 
   // to avoid the issue of being on a page and then selecting a category and being on the same page
   // e.g. if on page 6 and selecting 'smartphone' then still being on page 6 and getting empty results

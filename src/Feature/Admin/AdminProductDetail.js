@@ -42,7 +42,6 @@ const AdminProductDetail = () => {
   const product = useSelector(SelectProductByID);
   const dispatch = useDispatch();
   const params = useParams();
-  console.log(product.images[0]);
 
   useEffect(() => {
     dispatch(fetchProductByIDAsync(params.id));

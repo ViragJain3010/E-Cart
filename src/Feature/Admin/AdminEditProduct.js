@@ -1,11 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
-  SelectBrands,
-  SelectCategory,
   SelectProductByID,
   fetchProductByIDAsync,
   updateProductAsync,
 } from "../ProductList/ProductListSlice";
+import {
+  SelectBrands,
+  SelectCategory,
+} from "../FilterPage/SectionSlice";
 import { useForm } from "react-hook-form";
 import { Navigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -72,7 +74,6 @@ export default function AdminEditProduct() {
           delete product["image2"];
           delete product["image3"];
           delete product["image4"];
-          console.log(product);
 
           dispatch(updateProductAsync(product));
           reset();
@@ -83,7 +84,7 @@ export default function AdminEditProduct() {
             <h2 className="text-3xl font-semibold leading-7 text-gray-900">
               Product Specifications
             </h2>
-            {product.deleted && (
+            {product && product.deleted && (
               <p className="text-2xl text-red-500 animate-pulse pt-4">
                 This product has been deleted.
               </p>
@@ -322,7 +323,7 @@ export default function AdminEditProduct() {
           >
             Reset
           </button>
-          {product.deleted ? null : (
+          {product && product.deleted? null : (
             <button
               onClick={(e) => {
                 e.preventDefault();

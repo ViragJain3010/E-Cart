@@ -6,18 +6,9 @@
 //   });
 // }
 
-// export function fetchAllProducts() {
-//   return new Promise(async (resolve) => {
-//     const response = await fetch("https://dummyjson.com/products?limit=15");
-//     const data = await response.json();
-//     // console.log(data)
-//     resolve(data.products);
-//   });
-// }
-
 // <-- API Call for Filtered Products -->
 let prevQueryString = "";
-export function fetchProductsByFilter(filter, sort, pagination) {
+export function fetchProductsByFilter(filter, sort, pagination, user) {
   // filter = {"Catergory": ["smartphones","laptops"]}    --> filter will be this type of object
   //  sort = {"_sort" : "price"}              --> sort will be this type of object
   let query = "";
@@ -35,7 +26,7 @@ export function fetchProductsByFilter(filter, sort, pagination) {
   }
 
   // This does the toggling of sort
-  if (prevQueryString.includes(temp)) {
+  if (prevQueryString === query+temp) {
     prevQueryString = query;
   } else {
     query += temp;
@@ -46,9 +37,12 @@ export function fetchProductsByFilter(filter, sort, pagination) {
     query += `${key}=${pagination[key]}&`;
   }
 
-  // console.log(query, " :query");
+  if(user.role==="admin"){
+    query+="role=admin"
+  }
+
   return new Promise(async (resolve) => {
-    const response = await fetch(`http://localhost:8000/products?${query}`);
+    const response = await fetch(`http://localhost:8000/products?` + query);
     const data = await response.json();
     const totalItems = await response.headers.get("X-Total-Count");
     resolve({ data: { products: data, totalItems: +totalItems } });
@@ -56,25 +50,9 @@ export function fetchProductsByFilter(filter, sort, pagination) {
   });
 }
 
-export function fetchCategories() {
-  return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8000/category");
-    const data = await response.json();
-    resolve(data);
-  });
-}
-
-export function fetchBrands() {
-  return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8000/brands");
-    const data = await response.json();
-    resolve(data);
-  });
-}
-
 export function fetchProductByID(id) {
   return new Promise(async (resolve) => {
-    const response = await fetch(`http://localhost:8000/products/${id}`);
+    const response = await fetch("http://localhost:8000/products/" + id);
     const data = await response.json();
     resolve(data);
   });
